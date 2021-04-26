@@ -1,10 +1,24 @@
 {
-  "name": "v-dropdown",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@feinzer/v-dropdown",
+  "private": false,
+  "author": {
+    "name": "Daniel Hernández",
+    "email": "danhernan23i@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Feinzer/v-dropdown"
+  },
+  "license": "MIT",
+  "version": "0.0.1",
+  "main": "dist/v-dropdown.umd.min.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:lib": "vue-cli-service build --target lib --name v-dropdown src/dropdown/index.js --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
