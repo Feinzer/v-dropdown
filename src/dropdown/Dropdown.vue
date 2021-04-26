@@ -10,7 +10,7 @@ export default {
   },
   props: {
     value: {
-      type: Object,
+      type: undefined,
       required: true,
     },
     placeholder: {
