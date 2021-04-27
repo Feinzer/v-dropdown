@@ -96,14 +96,16 @@ export default {
         v-if="canSearch"
         class="flex bg-white cursor-pointer"
       >
-        <input
-          ref="dropdownSearchInput"
-          type="text"
-          @input="(e) => onSearch(e.target.value)"
-          class="outline-none min-w-0 w-full"
-          :placeholder="Label"
-          @blur="isOpen = false"
-        />
+        <slot name="search-input" :onSearch="onSearch" :label="Label">
+          <input
+            ref="dropdownSearchInput"
+            type="text"
+            @input="(e) => onSearch(e.target.value)"
+            class="outline-none min-w-0 w-full"
+            :placeholder="Label"
+            @blur="isOpen = false"
+          />
+        </slot>
         <SearchIcon />
       </div>
       <div
@@ -112,7 +114,9 @@ export default {
         id="___dropdown-label"
         class="flex bg-white cursor-pointer"
       >
-        <p>{{ Label }}</p>
+        <slot name="label" :label="Label">
+          <p>{{ Label }}</p>
+        </slot>
         <ChevronIcon
           class="transform transition-all duration-150"
           :class="isOpen && 'rotate-180'"

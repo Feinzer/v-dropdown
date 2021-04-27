@@ -3,17 +3,21 @@
     <Dropdown
       label="title"
       v-model="selectedValue"
-      v-slot="{ select }"
       @search="(data) => (searchText = data)"
     >
-      <p
-        v-for="(value, index) in SearchResults"
-        :key="index"
-        class="flex px-6 py-3 cursor-pointer hover:bg-gray-100"
-        @click="select(value)"
-      >
-        {{ value.title }}
-      </p>
+      <template v-slot:label="{ label }">
+        <p>{{ label }}</p>
+      </template>
+      <template v-slot:default="{ select }">
+        <p
+          v-for="(value, index) in SearchResults"
+          :key="index"
+          class="flex px-6 py-3 cursor-pointer hover:bg-gray-100"
+          @click="select(value)"
+        >
+          {{ value.title }}
+        </p>
+      </template>
     </Dropdown>
   </div>
 </template>
