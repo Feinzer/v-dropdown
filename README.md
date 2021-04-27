@@ -1,24 +1,61 @@
-# v-dropdown
+# @feinzer/v-dropdown
 
-## Project setup
-```
-npm install
-```
+Simple and reusable select/dropdown component using VueJS Slots.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Installation
 
-### Compiles and minifies for production
+``` sh
+npm install @feinzer/v-dropdown
 ```
-npm run build
+or
+``` sh
+yarn add @feinzer/v-dropdown
 ```
 
-### Lints and fixes files
-```
-npm run lint
+## Usage
+
+``` js
+import { Dropdown } from '@feinzer/v-dropdown';
+
+export default {
+  ...
+  components: {
+    Dropdown,
+  },
+  ...
+  data() {
+    return {
+      selected: Object,
+      options: [
+        ...
+      ]
+    };
+  },
+  ...
+};
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+``` html
+<Dropdown
+  v-slot="{ select }"
+  v-model="selected"
+>
+  <div
+    v-for="option in options"
+    :key="option.key"
+    @click="select(option)"
+  >
+    Option content
+  </div>
+</Dropdown>
+```
+
+## Props
+
+### Dropdown
+| Property                    | Type    | Default | Description                                                                                                                                                                                                                                                                           |
+|:----------------------------|:--------|:--------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| placeholder            | String | empty | Text to show when no option is selected
+| label            | String | empty | Key name of the selected object to show when an option is selected
+| canSearch                | Boolean | false | Enables or disables the ability to search through the options.
+| @search                | Event |  | Triggered whenever you input something in the search text input. Used to filter results.
