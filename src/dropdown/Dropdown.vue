@@ -85,52 +85,39 @@ export default {
 </script>
 
 <template>
-  <div
-    ref="dropdownGroup"
-    class="relative flex flex-col w-full rounded-lg bg-white shadow z-0"
-  >
-    <div ref="dropdownLabel" @click="onLabelClick" class="z-30">
-      <div
-        id="___dropdown-search"
-        ref="dropdownSearch"
-        v-if="canSearch"
-        class="flex bg-white cursor-pointer"
-      >
+  <div id="___dropdown-group" ref="dropdownGroup">
+    <div id="___dropdown-top" ref="dropdownLabel" @click="onLabelClick">
+      <div id="___dropdown-search" ref="dropdownSearch" v-if="canSearch">
         <slot name="search-input" :onSearch="onSearch" :label="Label">
           <input
+            id="___dropdown-search-input"
             ref="dropdownSearchInput"
             type="text"
             @input="(e) => onSearch(e.target.value)"
-            class="outline-none min-w-0 w-full"
             :placeholder="Label"
             @blur="isOpen = false"
           />
         </slot>
         <SearchIcon />
       </div>
-      <div
-        v-else
-        ref="dropdownDefaultLabel"
-        id="___dropdown-label"
-        class="flex bg-white cursor-pointer"
-      >
+      <div v-else id="___dropdown-label" ref="dropdownDefaultLabel">
         <slot name="label" :label="Label">
           <p>{{ Label }}</p>
         </slot>
         <ChevronIcon
-          class="transform transition-all duration-150"
-          :class="isOpen && 'rotate-180'"
+          id="___dropdown-chevron"
+          :class="isOpen && '___dropdown-rotate-180'"
         />
       </div>
     </div>
     <transition name="___dropdown">
       <div
         v-if="isOpen"
+        id="___dropdown-body"
         ref="dropdownBody"
-        class="absolute w-full rounded-b-lg shadow bg-white z-10 overflow-hidden"
         :style="bodyStyle"
       >
-        <div class="flex flex-col overflow-y-auto overflow-x-hidden max-h-60">
+        <div id="___dropdown-body-inner">
           <slot :select="onSelect" />
         </div>
       </div>
@@ -139,9 +126,60 @@ export default {
 </template>
 
 <style>
+#___dropdown-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  z-index: 0;
+}
+
+#___dropdown-top {
+  z-index: 30;
+}
+
+#___dropdown-search-input {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  min-width: 0;
+  width: 100%;
+}
+
 .___dropdown_icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+#___dropdown-chevron {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.___dropdown-rotate-180 {
+  transform: rotate(180deg);
+}
+
+#___dropdown-body {
+  position: absolute;
+  width: 100%;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  background-color: white;
+  z-index: 10;
+  overflow: hidden;
+}
+
+#___dropdown-body-inner {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 15rem;
 }
 
 .___dropdown-enter-active,
@@ -165,5 +203,7 @@ export default {
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   outline: none;
+  background-color: white;
+  cursor: pointer;
 }
 </style>
