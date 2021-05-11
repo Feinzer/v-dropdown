@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       isOpen: false,
+      searchText: '',
     };
   },
   methods: {
@@ -69,9 +70,11 @@ export default {
       this.isOpen = !this.isOpen;
     },
     onSearch(search) {
-      this.$emit('search', search);
+      this.searchText = search;
+      this.$emit('search', this.searchText);
     },
     onSelect(value) {
+      this.searchText = '';
       this.$emit('input', value);
     },
   },
@@ -93,6 +96,7 @@ export default {
             id="___dropdown-search-input"
             ref="dropdownSearchInput"
             type="text"
+            :value="searchText"
             @input="(e) => onSearch(e.target.value)"
             :placeholder="Label"
             @blur="isOpen = false"
