@@ -10,7 +10,7 @@
     "url": "https://github.com/Feinzer/v-dropdown"
   },
   "license": "MIT",
-  "version": "0.0.3b",
+  "version": "0.0.3c",
   "main": "dist/v-dropdown.umd.min.js",
   "files": [
     "dist"
