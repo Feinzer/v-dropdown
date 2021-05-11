@@ -99,7 +99,6 @@ export default {
             :value="searchText"
             @input="(e) => onSearch(e.target.value)"
             :placeholder="Label"
-            @blur="isOpen = false"
           />
         </slot>
         <SearchIcon />
