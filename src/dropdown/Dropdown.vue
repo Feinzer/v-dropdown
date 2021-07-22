@@ -33,13 +33,13 @@ export default {
       else return this.placeholder;
     },
     bodyMaxHeight() {
-      const labelHeight = this.$refs.dropdownLabel.clientHeight;
+      const labelHeight = this.$refs.dropdownGroup.clientHeight;
       return {
         'max-height': labelHeight + 'px',
       };
     },
     bodyStyle() {
-      const labelHeight = this.$refs.dropdownLabel.clientHeight;
+      const labelHeight = this.$refs.dropdownGroup.clientHeight;
       return {
         'margin-top': labelHeight * 0.9 + 'px',
         'padding-top': labelHeight * 0.1 + 'px',
@@ -66,7 +66,7 @@ export default {
     },
     onLabelClick() {
       if (this.canSearch) this.$refs.dropdownSearchInput.focus();
-      else this.$refs.dropdownLabel.focus();
+      else if (this.$refs.dropdownLabel) this.$refs.dropdownLabel.focus();
       this.isOpen = !this.isOpen;
     },
     onSearch(search) {
@@ -89,30 +89,42 @@ export default {
 
 <template>
   <div id="___dropdown-group" ref="dropdownGroup">
-    <div id="___dropdown-top" ref="dropdownLabel" @click="onLabelClick">
-      <div id="___dropdown-search" ref="dropdownSearch" v-if="canSearch">
-        <slot name="search-input" :onSearch="onSearch" :label="Label">
-          <input
-            id="___dropdown-search-input"
-            ref="dropdownSearchInput"
-            type="text"
-            :value="searchText"
-            @input="(e) => onSearch(e.target.value)"
-            :placeholder="Label"
+    <slot
+      name="input"
+      :toggle="onLabelClick"
+      :onSearch="onSearch"
+      :label="Label"
+    >
+      <div
+        id="___dropdown-top"
+        :class="isOpen && '___dropdown-flat-bottom-corners'"
+        ref="dropdownLabel"
+        @click="onLabelClick"
+      >
+        <div id="___dropdown-search" ref="dropdownSearch" v-if="canSearch">
+          <slot name="search-input" :onSearch="onSearch" :label="Label">
+            <input
+              id="___dropdown-search-input"
+              ref="dropdownSearchInput"
+              type="text"
+              :value="searchText"
+              @input="(e) => onSearch(e.target.value)"
+              :placeholder="Label"
+            />
+          </slot>
+          <SearchIcon />
+        </div>
+        <div v-else id="___dropdown-label" ref="dropdownDefaultLabel">
+          <slot name="label" :label="Label">
+            <p>{{ Label }}</p>
+          </slot>
+          <ChevronIcon
+            id="___dropdown-chevron"
+            :class="isOpen && '___dropdown-rotate-180'"
           />
-        </slot>
-        <SearchIcon />
+        </div>
       </div>
-      <div v-else id="___dropdown-label" ref="dropdownDefaultLabel">
-        <slot name="label" :label="Label">
-          <p>{{ Label }}</p>
-        </slot>
-        <ChevronIcon
-          id="___dropdown-chevron"
-          :class="isOpen && '___dropdown-rotate-180'"
-        />
-      </div>
-    </div>
+    </slot>
     <transition name="___dropdown">
       <div
         v-if="isOpen"
@@ -134,13 +146,19 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-radius: 0.5rem;
-  background-color: white;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 #___dropdown-top {
   z-index: 30;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 200ms;
+}
+
+.___dropdown-flat-bottom-corners {
+  border-bottom-right-radius: 0rem !important;
+  border-bottom-left-radius: 0rem !important;
 }
 
 #___dropdown-search-input {
@@ -192,7 +210,7 @@ export default {
 .___dropdown-enter,
 .___dropdown-leave-active {
   opacity: 0;
-  transform: translateY(-2rem);
+  transform: translateY(-5%);
 }
 
 #___dropdown-label,
